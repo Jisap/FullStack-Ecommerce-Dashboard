@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { StoreModal } from "@/components/modals/store-modal";
 
-export const ModalProvider = () => { // Provee a la app el estado del modal
+export const ModalProvider = () => { // Provee a la app el estado del modal según zustang
 
     const [isMounted, setIsMounted] = useState( false );
 
