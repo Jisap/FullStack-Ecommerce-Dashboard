@@ -26,7 +26,7 @@ export const Modal: React.FC<ModalProps> = ({ // Componente que define un modal
     };
 
     return (
-        <Dialog open={isOpen}               // open recibe un booleano y determina si esta o no abierto el modal 
+        <Dialog open={isOpen}               // open recibe un booleano y determina si esta o no abierto el modal según shadcn
                 onOpenChange={onChange}     // si open es false cierra el dialog
         >    
             <DialogContent>
