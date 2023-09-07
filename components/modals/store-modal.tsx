@@ -36,7 +36,7 @@ export const StoreModal = () => {                       // Muestra un Modal en c
         try {
             setLoading(true)
             const response = await axios.post('/api/stores', values); // Los valores se envían a la api para crear una bd con el nombre dado en el modal
-            toast.success("Store created.");
+            window.location.assign(`/${response.data.id}`);           // redirección a [storeId]  
         } catch (error) {
             toast.error("Something went wrong.");
         }finally{

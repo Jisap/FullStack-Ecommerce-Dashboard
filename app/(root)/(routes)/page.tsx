@@ -15,10 +15,12 @@ const SetupPage = () => {
     },[isOpen, onOpen]);
 
     return (
-        <div className="p-4">
-            {/* <UserButton afterSignOutUrl="/"/> */}
-            Root Page
-        </div>
+
+        null
+        // <div className="p-4">
+        //     {/* <UserButton afterSignOutUrl="/"/> */}
+        //     Root Page
+        // </div>
     )
 }
 
