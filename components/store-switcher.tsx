@@ -31,7 +31,7 @@ const StoreSwitcher = ({
         value: item.id,
     }));
 
-    const currentStore = formattedItems.find((item) => item.value === params.storeId); // Estará activo el store cuyp id coincida con el params de la url
+    const currentStore = formattedItems.find((item) => item.value === params.storeId); // Estará activo el store cuyo id coincida con el params de la url
 
     const [open, setOpen] = useState(false);    // Controla el estado del popover
 
