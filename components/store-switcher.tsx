@@ -35,7 +35,7 @@ const StoreSwitcher = ({
 
     const [open, setOpen] = useState(false);    // Controla el estado del popover
 
-    const onStoreSelect = (store: { value: string, label: string }) => { //
+    const onStoreSelect = (store: { value: string, label: string }) => { // Selecciona el id del store, cierra el combobox y te redirecciona /[storeId]
         setOpen(false);
         router.push(`/${store.value}`)
     }

@@ -10,7 +10,7 @@ interface SettingsPageProps {
     }
 };
 
-const SettingPage: React.FC<SettingsPageProps> = async ({ params }) => {
+const SettingPage: React.FC<SettingsPageProps> = async ({ params }) => { // permite cambiar el nombre del store despues de pulsar setting en el navbar
 
   const { userId } = auth();
   if(!userId){

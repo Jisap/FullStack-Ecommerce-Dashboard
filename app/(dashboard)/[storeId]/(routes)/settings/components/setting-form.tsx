@@ -7,10 +7,13 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Store } from "@prisma/client"
+import axios from "axios"
 
 import { Trash } from "lucide-react"
+import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import * as z from "zod"
 
 interface SettingsFormProps {
@@ -27,6 +30,8 @@ const SettingForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
   const[open, setOpen] = useState(false);
   const[loading, setLoading] = useState(false);
+  const params = useParams();
+  const router = useRouter();
 
   const form = useForm<SettingsFormValues>({ // Validación de los valores del formulario de react-hook-form según esquema de zod
     resolver: zodResolver(formSchema),
@@ -34,7 +39,19 @@ const SettingForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   });
 
   const onSubmit = async( data: SettingsFormValues ) => {
-    console.log(data);
+    try {
+      
+      setLoading(true);
+      await axios.patch(`/api/stores/${params.storeId}`, data);
+      router.refresh();
+      toast.success("Store updated")
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false)
+    }
   }
 
   return (
@@ -45,9 +62,10 @@ const SettingForm: React.FC<SettingsFormProps> = ({ initialData }) => {
           description="Manage store preferences"
         />
         <Button
+          disabled={loading}
           variant="destructive"
           size="sm"
-          onClick={() => {}}
+          onClick={() => setOpen(true)}
         >
           <Trash className="h-4 w-4"/>
         </Button>
