@@ -5,10 +5,10 @@ import { useEffect } from "react";
 
 const SetupPage = () => {
 
-    const onOpen = useStoreModal((state) => state.onOpen);
-    const isOpen = useStoreModal((state) => state.isOpen);
+    const onOpen = useStoreModal((state) => state.onOpen); // Función para poner en true isOpen
+    const isOpen = useStoreModal((state) => state.isOpen); // Estado de isOpen
 
-    useEffect(() => {
+    useEffect(() => { // Abre el modal al cambiar isOpen=true -> ModalProvider -> StoreModal abre el modal de creación de stores
         if(!isOpen){
             onOpen();
         }

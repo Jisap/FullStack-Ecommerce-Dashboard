@@ -17,7 +17,7 @@ interface StoreSWitcherProps extends PopoverTriggerProps {
     items: Store[];
 }
 
-const StoreSwitcher = ({
+const StoreSwitcher = ({ // Crea un combobox y permite elegir un store
     className,
     items = [] // stores pertenecientes al usuario logueado
 }: StoreSWitcherProps) => {
@@ -93,7 +93,7 @@ const StoreSwitcher = ({
                             <CommandItem
                                 onSelect={() => {
                                     setOpen(false)
-                                    storeModal.onOpen()
+                                    storeModal.onOpen() // abre el modal para crear un nuevo store
                                 }}
                             >
                                 <PlusCircle className="mr-2 h-5 w-5"/>
