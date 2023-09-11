@@ -1,11 +1,13 @@
 "use client"
 
 import { AlertModal } from "@/components/modals/alert-modal"
+import { ApiAlert } from "@/components/ui/api-alert"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Heading } from "@/components/ui/heading"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import { useOrigin } from "@/hooks/use-origin"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Store } from "@prisma/client"
 import axios from "axios"
@@ -33,6 +35,7 @@ const SettingForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const[loading, setLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const form = useForm<SettingsFormValues>({ // Validación de los valores del formulario de react-hook-form según esquema de zod
     resolver: zodResolver(formSchema),
@@ -121,6 +124,14 @@ const SettingForm: React.FC<SettingsFormProps> = ({ initialData }) => {
           </Button>
         </form>
       </Form>
+
+      <Separator />
+
+      <ApiAlert // Nos permite copiar la ruta de la api a un store seleccionado
+        title="NEXT_PUBLIC_API_URL" 
+        description={`${origin}/api/${params.storeId}`}
+        variant="public"
+        />
     </>
   )
 }
