@@ -5,6 +5,7 @@ import { ApiAlert } from "@/components/ui/api-alert"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Heading } from "@/components/ui/heading"
+import ImageUpload from "@/components/ui/image-upload"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { useOrigin } from "@/hooks/use-origin"
@@ -30,7 +31,7 @@ const formSchema = z.object({ // Esquema de validación de zod
 
 type BillboardFormValues = z.infer<typeof formSchema>; // Se crea un nuevo tipo -> BillboardFormValues tendrá la misma estructura que el schema de z
 
-const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
+const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Esta función permitirá crear, modificar o borrar un billboard
 
   const[open, setOpen] = useState(false);
   const[loading, setLoading] = useState(false);
@@ -116,6 +117,24 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"  
         >
+          <FormField
+            control={form.control} // Se pasa el controlador del campo de formulario <Form/> al componente <FormField />
+            name="imageUrl"
+            render={({ field }) => ( // render renderiza el campo del formulario con el arg.field que contiene el value, errores valid y el disabled
+              <FormItem>
+                <FormLabel>Background image</FormLabel>
+                <FormControl>
+                  <ImageUpload 
+                    value={field.value ? [field.value] : []} 
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}  // Es una función que añade un value (url) al campo field. onchange viene de react-hook-forms
+                    onRemove={() => field.onChange("")}      // Función que resetea el valor de la url
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />    
           <div className="grid grid-cols-3 gap-8">
             <FormField 
               control={form.control} // Se pasa el controlador del campo de formulario <Form/> al componente <FormField />
