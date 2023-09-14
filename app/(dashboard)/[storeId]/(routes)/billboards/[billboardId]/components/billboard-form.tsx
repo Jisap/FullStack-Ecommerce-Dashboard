@@ -57,9 +57,14 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
     try {
       
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data);
+      if( initialData){
+        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
+      }else{
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
       router.refresh();
-      toast.success("Store updated")
+      router.push(`/${params.storeId}/billboards`)
+      toast.success(toastMessage)
 
     } catch (error) {
       console.log(error);
@@ -73,13 +78,13 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
     try {
       
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`)
+      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
       router.refresh();
       router.push("/");
-      toast.success("Store deleted.")
+      toast.success("Billboard deleted.")
 
     } catch (error) {
-      toast.error("Make sure you removed all products and categories first.")
+      toast.error("Make sure you removed all categories using this billboard first.")
     }finally{
       setLoading(false);
       setOpen(false);
@@ -88,6 +93,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
 
   return (
     <>
+      {/* Modal que controla el borrado de un billboard */}
       <AlertModal 
         isOpen={open}
         onClose={() => setOpen(false)} // Cierra el modal con un setOpen(false)
@@ -99,7 +105,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
           title={title}
           description={description}
         />
-        { initialData && (
+        { initialData && ( // Se renderiza si existe initialData
             <Button
               disabled={loading}
               variant="destructive"
@@ -117,6 +123,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"  
         >
+          {/* Campo para subir la imagen */}
           <FormField
             control={form.control} // Se pasa el controlador del campo de formulario <Form/> al componente <FormField />
             name="imageUrl"
@@ -136,6 +143,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
             )}
           />    
           <div className="grid grid-cols-3 gap-8">
+            {/* CAmpo para subir el label del billboard */}
             <FormField 
               control={form.control} // Se pasa el controlador del campo de formulario <Form/> al componente <FormField />
               name="label"
