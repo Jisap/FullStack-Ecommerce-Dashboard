@@ -21,7 +21,7 @@ const ImageUpload:React.FC<ImageUploadProps> = ({
     onRemove,
     value,    
 }) => {
-    console.log(value)
+    
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {

@@ -31,10 +31,10 @@ type BillboardFormValues = z.infer<typeof formSchema>; // Se crea un nuevo tipo 
 
 const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Esta función permitirá crear, modificar o borrar un billboard
 
+  const params = useParams();
+  const router = useRouter();
   const[open, setOpen] = useState(false);
   const[loading, setLoading] = useState(false);
-  const params = useParams();
-  const router = useRouter();;
 
   const title = initialData ? "Edit billboard" : "Create billboard";
   const description = initialData ? "Edit a billboard" : "Add a new billboard";
@@ -54,7 +54,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
     try {
       
       setLoading(true);
-      if( initialData){
+      if( initialData ){
         await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
       }else{
         await axios.post(`/api/${params.storeId}/billboards`, data);
@@ -77,7 +77,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
       router.refresh();
-      router.push("/");
+      router.push(`/${params.storeId}/billboards`);
       toast.success("Billboard deleted.")
 
     } catch (error) {
@@ -113,7 +113,9 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
             </Button>
         )}
       </div>
+
       <Separator />
+
       {/* Se pasa el estado del formulario validado con zod (form) a <Form> de React-hook-form  */}
       <Form {...form}>
         <form 
@@ -160,8 +162,6 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => { // Es
           </Button>
         </form>
       </Form>
-
-      <Separator />
 
     </>
   )
