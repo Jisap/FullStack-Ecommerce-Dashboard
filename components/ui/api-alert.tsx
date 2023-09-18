@@ -13,12 +13,14 @@ interface ApiAlertProps {
     variant: "public" | "admin";
 };
 
+// Tipo para el texto debajo de las badge
 const textMap: Record<ApiAlertProps["variant"], string> = { // Mapeo que asocia cada posible valor de ApiAlertProps-variant con una cadena de texto.
     public: "Public",                                       // Cuando variant es public el valor asociado será "Public".
     admin: "Admin"                                          // Cuando variant es admin el valor asociado será "Admin".
 }
 
-const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = { // Lo mismo pero las cadenas de texto provienen de las BadgeProps
+// Tipo para las badges
+const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = { // Lo mismo pero las cadenas de texto provienen de las BadgeProps: default, seconday, destructive y outline
     public: "secondary",                                       
     admin: "destructive"                                          
 }
@@ -36,6 +38,7 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
 
   return (
     <Alert>
+        {/* Esta primera parte controla el estilo y el texto que se muestra */}
         <Server className="h-4 w-4"/>
         <AlertTitle className="flex items-center gap-x-2">
             {title}
@@ -45,6 +48,8 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
                 {textMap[variant]}
             </Badge> 
         </AlertTitle>
+
+        {/* Esta segunda parte muestra la url y el boton para copiarla */}
         <AlertDescription className="mt-4 flex items-center justify-between">
             <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
                 {description}
