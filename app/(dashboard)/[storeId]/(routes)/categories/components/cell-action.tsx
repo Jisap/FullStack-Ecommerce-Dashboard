@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { BillboardColumn } from "./columns";
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
@@ -9,9 +9,10 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
+import { CategoryColumn } from "./columns";
 
 interface CellActionProps{
-    data: BillboardColumn;
+    data: CategoryColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge la data de cada row

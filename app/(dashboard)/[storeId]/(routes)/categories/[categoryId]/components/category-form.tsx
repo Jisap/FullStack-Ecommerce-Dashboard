@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Heading } from "@/components/ui/heading"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Category } from "@prisma/client"
+import { Billboard, Category } from "@prisma/client"
 import axios from "axios"
 
 import { Trash } from "lucide-react"
@@ -19,6 +20,7 @@ import * as z from "zod"
 
 interface CategoryFormProps {
   initialData: Category | null;
+  billboards: Billboard[];
 }
 
 const formSchema = z.object({ // Esquema de validación de zod
@@ -28,7 +30,7 @@ const formSchema = z.object({ // Esquema de validación de zod
 
 type CategoryFormValues = z.infer<typeof formSchema>; // Se crea un nuevo tipo -> CategoryFormValues tendrá la misma estructura que el schema de z
 
-const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => { // Esta función permitirá crear, modificar o borrar un billboard
+const CategoryForm: React.FC<CategoryFormProps> = ({ initialData, billboards }) => { // Esta función permitirá crear, modificar o borrar una Categoría
 
   const params = useParams();
   const router = useRouter();
@@ -54,12 +56,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => { // Esta
       
       setLoading(true);
       if( initialData ){
-        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
+        await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data);
       }else{
-        await axios.post(`/api/${params.storeId}/billboards`, data);
+        await axios.post(`/api/${params.storeId}/categories`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/billboards`)
+      router.push(`/${params.storeId}/categories`)
       toast.success(toastMessage)
 
     } catch (error) {
@@ -74,13 +76,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => { // Esta
     try {
       
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
+      await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`)
       router.refresh();
-      router.push(`/${params.storeId}/billboards`);
-      toast.success("Billboard deleted.")
+      router.push(`/${params.storeId}/categories`);
+      toast.success("Category deleted.")
 
     } catch (error) {
-      toast.error("Make sure you removed all categories using this billboard first.")
+      toast.error("Make sure you removed all products using this category first.")
     }finally{
       setLoading(false);
       setOpen(false);
@@ -89,7 +91,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => { // Esta
 
   return (
     <>
-      {/* Modal que controla el borrado de un billboard */}
+      {/* Modal que controla el borrado de una categoría */}
       <AlertModal 
         isOpen={open}
         onClose={() => setOpen(false)} // Cierra el modal con un setOpen(false)
@@ -123,7 +125,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => { // Esta
         >
           
           <div className="grid grid-cols-3 gap-8">
-            {/* CAmpo para subir el label del billboard */}
+            {/* Campo para subir el name de una categoría */}
             <FormField 
               control={form.control} // Se pasa el controlador del campo de formulario <Form/> al componente <FormField />
               name="name"
@@ -136,7 +138,45 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => { // Esta
                   <FormMessage />
                 </FormItem>
               )}
-            />    
+            />
+            {/* Campo para establecer mediante un select un billboard */}
+            <FormField
+              control={form.control} // Se pasa el controlador del campo de formulario <Form/> al componente <FormField />
+              name="billboardId"
+              render={({ field }) => ( // render renderiza el campo del formulario con el arg.field que contiene el value, errores valid y el disabled
+                <FormItem>
+                  <FormLabel>Billboard</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue 
+                            defaultValue={field.value}
+                            placeholder="Select a billboard"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent>
+                        { billboards.map((billboard) => (
+                          <SelectItem
+                            key={billboard.id}
+                            value={billboard.id}
+                          >
+                            {billboard.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+
+                    </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />        
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
