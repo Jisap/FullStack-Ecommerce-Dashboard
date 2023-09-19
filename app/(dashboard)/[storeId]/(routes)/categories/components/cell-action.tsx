@@ -31,12 +31,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge l
         try {
 
             setLoading(true);
-            await axios.delete(`/api/${params.storeId}/billboards/${data.id}`)
+            await axios.delete(`/api/${params.storeId}/categories/${data.id}`)
             router.refresh();
-            toast.success("Billboard deleted.")
+            toast.success("Category deleted.")
 
         } catch (error) {
-            toast.error("Make sure you removed all categories using this billboard first.")
+            toast.error("Make sure you removed all products using this category first..")
         } finally {
             setLoading(false);
             setOpen(false);
@@ -68,7 +68,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge l
                             <Copy className="mr-2 h-4 w-4" />
                             Copy Id
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/billboards/${data.id}`)}>
+                        <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/categories/${data.id}`)}>
                             <Edit className="mr-2 h-4 w-4"/>
                             Update
                         </DropdownMenuItem>

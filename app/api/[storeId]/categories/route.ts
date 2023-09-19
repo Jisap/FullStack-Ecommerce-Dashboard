@@ -8,6 +8,8 @@ export async function POST(
     { params }: { params: { storeId: string }}
 
 ) {
+
+    console.log(params)
     try {
         const { userId } = auth();
         const body = await req.json();
