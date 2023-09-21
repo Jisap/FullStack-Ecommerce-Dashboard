@@ -19,7 +19,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge l
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText( id );
-        toast.success("Billboard Id copied to the clipboard");
+        toast.success("Category Id copied to the clipboard");
     };
 
     const router = useRouter();
