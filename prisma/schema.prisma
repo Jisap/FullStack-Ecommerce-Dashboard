@@ -18,6 +18,7 @@ model Store {
   billboards Billboard[] @relation("StoreToBillboard") // El Store tiene Billboard[] y cada billboard tendrá un storeId referenciado al id del store
   categories Category[] @relation("StoreToCategory")  // El store tiene Category[] y cada category tendra una referencia al store a traves de su id
   sizes Size[] @relation("StoreToSize")
+  colors Color[] @relation("StoreToColor")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -53,6 +54,18 @@ model Size {
   id String @id @default(uuid())
   storeId String
   store Store @relation("StoreToSize", fields: [storeId], references: [id])
+  name String
+  value String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
+}
+
+model Color {
+  id String @id @default(uuid())
+  storeId String
+  store Store @relation("StoreToColor", fields: [storeId], references: [id])
   name String
   value String
   createdAt DateTime @default(now())
