@@ -8,7 +8,7 @@ import { format } from "date-fns";
 
 const ColorsPage = async({ params }: { params: { storeId: string }}) => {
 
-  const colors = await prismadb.size.findMany({
+  const colors = await prismadb.color.findMany({
     where: {
       storeId: params.storeId
     },
