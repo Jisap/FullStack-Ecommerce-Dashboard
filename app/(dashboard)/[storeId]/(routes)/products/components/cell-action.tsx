@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { BillboardColumn } from "./columns";
+import {  ProductColumn } from "./columns";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
@@ -11,14 +11,14 @@ import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal";
 
 interface CellActionProps{
-    data: BillboardColumn;
+    data: ProductColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge la data de cada row
 
     const onCopy = (id: string) => {
         navigator.clipboard.writeText( id );
-        toast.success("Billboard Id copied to the clipboard");
+        toast.success("Product Id copied to the clipboard");
     };
 
     const router = useRouter();
@@ -30,9 +30,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge l
         try {
 
             setLoading(true);
-            await axios.delete(`/api/${params.storeId}/billboards/${data.id}`)
+            await axios.delete(`/api/${params.storeId}/products/${data.id}`)
             router.refresh();
-            toast.success("Billboard deleted.")
+            toast.success("Product deleted.")
 
         } catch (error) {
             toast.error("Make sure you removed all categories using this billboard first.")
@@ -67,7 +67,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => { // Recoge l
                             <Copy className="mr-2 h-4 w-4" />
                             Copy Id
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/billboards/${data.id}`)}>
+                        <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/products/${data.id}`)}>
                             <Edit className="mr-2 h-4 w-4"/>
                             Update
                         </DropdownMenuItem>
