@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { Billboard } from '@prisma/client';
+
 
 
 export async function GET(
@@ -10,10 +10,11 @@ export async function GET(
 ) {
 
     try {
-
+        
         if (!params.billboardId) {
-            return new NextResponse("Billboard Id is required", { status: 400 });
-        };
+             return new NextResponse("Billboard Id is required", { status: 400 });
+         };
+        
 
         const billboard = await prismadb.billboard.findUnique({
             where: {
@@ -34,10 +35,10 @@ export async function GET(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { storeId: string , billboarId: string, } }
+    { params }: { params: { storeId: string , billboardId: string, } }
 ) {
+   
     try {
-
         const { userId } = auth();
         const body = await req.json();
         const { label, imageUrl } = body;
@@ -58,7 +59,7 @@ export async function PATCH(
             return new NextResponse("StoreId is required", { status: 400 });
         };
 
-        if(!params.billboarId){
+        if(!params.billboardId){
             return new NextResponse("Billboard Id is required", { status: 400 });
         }
 
@@ -76,7 +77,7 @@ export async function PATCH(
 
         const billboard = await prismadb.billboard.update({
             where: {
-                id: params.billboarId,
+                id: params.billboardId,
             },
             data: {
                 label,
@@ -95,7 +96,7 @@ export async function PATCH(
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { storeId: string, billboarId: string } }
+    { params }: { params: { storeId: string, billboardId: string } }
 ) {
  
     try {
@@ -106,7 +107,7 @@ export async function DELETE(
             return new NextResponse("Unauthenticated", { status: 401 });
         };
 
-        if (!params.billboarId) {
+        if (!params.billboardId) {
             return new NextResponse("Billboard Id is required", { status: 400 });
         };
 
@@ -123,7 +124,7 @@ export async function DELETE(
 
         const billboard = await prismadb.billboard.delete({
             where: {
-                id: params.billboarId,
+                id: params.billboardId,
             },
         });
 

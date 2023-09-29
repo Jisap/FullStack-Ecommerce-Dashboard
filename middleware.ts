@@ -2,9 +2,9 @@ import { authMiddleware } from "@clerk/nextjs";
 
 
 export default authMiddleware({
-    publicRoutes: ["/:path*"],
+    publicRoutes: ["/api/:path*"], // No necesitan autentificación
 });
 
 export const config = {
-    matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+    matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"], // Necesita autentificación
 };
