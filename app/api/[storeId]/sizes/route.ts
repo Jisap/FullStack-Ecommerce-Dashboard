@@ -74,7 +74,17 @@ export async function GET(
             }
         });
 
-        return NextResponse.json(sizes);
+        // Configura los encabezados CORS para permitir solicitudes desde cualquier origen (*)
+        const responseHeaders = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET', // Agrega los métodos necesarios
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+        };
+
+        return new NextResponse(JSON.stringify(sizes), {
+            status: 200,
+            headers: responseHeaders
+        });
 
     } catch (error) {
         console.log('[SIZES_GET]', error);

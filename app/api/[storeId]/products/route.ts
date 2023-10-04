@@ -124,6 +124,18 @@ export async function GET(
             }
         });
 
+        // // Configura los encabezados CORS para permitir solicitudes desde cualquier origen (*)
+        // const responseHeaders = {
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Methods': 'GET', // Agrega los métodos necesarios
+        //     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+        // };
+
+        // return new NextResponse(JSON.stringify(products), {
+        //     status: 200,
+        //     headers: responseHeaders
+        // });
+
         return NextResponse.json(products);
 
     } catch (error) {
