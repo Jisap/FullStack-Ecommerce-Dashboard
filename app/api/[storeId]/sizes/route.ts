@@ -68,23 +68,25 @@ export async function GET(
             return new NextResponse("Store id is require", { status: 400 });
         }
 
-        const sizes = await prismadb.size.findMany({ // Buscamos tablas de datos dentro de prismadb correspondientes a billboard
+        const sizes = await prismadb.size.findMany({ // Buscamos tablas de datos dentro de prismadb correspondientes a size
             where: {
                 storeId: params.storeId,
             }
         });
 
-        // Configura los encabezados CORS para permitir solicitudes desde cualquier origen (*)
-        const responseHeaders = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET', // Agrega los métodos necesarios
-            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-        };
+        // // Configura los encabezados CORS para permitir solicitudes desde cualquier origen (*)
+        // const responseHeaders = {
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Methods': 'GET', // Agrega los métodos necesarios
+        //     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+        // };
 
-        return new NextResponse(JSON.stringify(sizes), {
-            status: 200,
-            headers: responseHeaders
-        });
+        // return new NextResponse(JSON.stringify(sizes), {
+        //     status: 200,
+        //     headers: responseHeaders
+        // });
+
+        return NextResponse.json(sizes);
 
     } catch (error) {
         console.log('[SIZES_GET]', error);
